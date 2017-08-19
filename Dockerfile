@@ -5,6 +5,7 @@ MAINTAINER kevin, https://github.com/thekevinchi/joinbot
 #Install dependencies
 RUN sudo apt-get update \
     && sudo apt-get install software-properties-common -y \
+    && sudo add-apt-repository ppa:fkrull/deadsnakes -y \
     && sudo apt-get update -y \
     && sudo apt-get install build-essential unzip -y \
     && sudo apt-get install python3.5 python3.5-dev -y

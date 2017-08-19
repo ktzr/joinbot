@@ -4,3 +4,4 @@
 out
 gen
 /config/options.ini
+/config/*-options.ini
