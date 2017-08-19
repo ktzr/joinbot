@@ -23,7 +23,6 @@ class JoinBot(discord.Client):
             loop.close()
 
     async def on_ready(self):
-
         print('Connected!\n')
         print('Username: ' + self.user.name)
         print('ID: ' + self.user.id)
