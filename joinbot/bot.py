@@ -69,10 +69,6 @@ class JoinBot(discord.Client):
                     pass
             return
 
-        if "pizza" in message.content.lower() and "pineapple" in message.content.lower():
-            print('Pizza/pinapple :  %s' % message.author.name)
-            await self.add_reaction(message, ":pineapplepizza:343436681195683840")
-
 
 if __name__ == '__main__':
     bot = JoinBot()
