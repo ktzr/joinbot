@@ -1,5 +1,5 @@
 import os
 from joinbot import JoinBot
 
-JoinBot().run()
+JoinBot().run_bot()
 print('exiting')
