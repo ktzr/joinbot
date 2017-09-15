@@ -1,4 +1,3 @@
-import asyncio
 import discord
 
 from joinbot.config import Config, ConfigDefaults
@@ -11,8 +10,8 @@ class JoinBot(discord.Client):
         self.config = Config(ConfigDefaults.options_file)
 
     # noinspection PyMethodOverriding
-    def run_bot(self):
-        self.run(self.config._login_token)
+    def run(self):
+        super().run(self.config._login_token)
 
     async def on_ready(self):
         print('Connected!\n')
@@ -72,4 +71,4 @@ class JoinBot(discord.Client):
 
 if __name__ == '__main__':
     bot = JoinBot()
-    bot.run_bot()
+    bot.run()
