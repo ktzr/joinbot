@@ -1,6 +1,5 @@
 import asyncio
 import discord
-import aiohttp
 
 from joinbot.config import Config, ConfigDefaults
 
@@ -16,11 +15,8 @@ class JoinBot(discord.Client):
         try:
             loop = asyncio.get_event_loop()
             loop.run_until_complete(self.start(self.config._login_token))
-            loop.run_until_complete(self.connect())
         except Exception:
-            loop.run_until_complete(self.close())
-        finally:
-            loop.close()
+            print(Exception)
 
     async def on_ready(self):
         print('Connected!\n')
@@ -47,12 +43,6 @@ class JoinBot(discord.Client):
                 await self.remove_roles(message.author,
                                         discord.utils.get(message.server.roles, id=self.config.new_member_role))
 
-            if self.config.command_prefix + 'setavi' in message.content.lower() and message.author.id == self.config.owner_id:
-                string_avi = message.content[8:]
-                async with aiohttp.get(string_avi) as r:
-                    data = await r.read()
-                    await self.edit_profile(avatar=data)
-
             if self.config.command_prefix + 'restart' in message.content.lower() and message.author.id == self.config.owner_id:
                 self.logout()
 
@@ -66,8 +56,14 @@ class JoinBot(discord.Client):
                     await self.delete_message(message)
                 except:
                     print("failed to delete message")
-                    pass
             return
+
+    async def on_message_delete(self, message):
+        try:
+            if message.channel.id != self.config.new_member_channel:
+                print("Deleted message from %s :'%s'"%(message.author.name,message.content))
+        except Exception:
+            print("failed to log message deletion")
 
 
 if __name__ == '__main__':
