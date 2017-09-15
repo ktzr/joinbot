@@ -12,11 +12,8 @@ class JoinBot(discord.Client):
 
     # noinspection PyMethodOverriding
     def run(self):
-        try:
-            loop = asyncio.get_event_loop()
-            loop.run_until_complete(self.start(self.config._login_token))
-        except Exception:
-            print(Exception)
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self.start(self.config._login_token))
 
     async def on_ready(self):
         print('Connected!\n')
@@ -24,11 +21,17 @@ class JoinBot(discord.Client):
         print('ID: ' + self.user.id)
 
     async def on_member_join(self, member):
-        self.send_message(member, 'Hey! and welcome to the %s Discord Server!\n'
+        try:
+            self.send_message(member, 'Hey! and welcome to the %s Discord Server!\n'
                                   'Please make sure you read <#%s> and set a nickname so people '
                                   'can identify you and you can post in all the channels!' % (
-                          member.server.name, self.config.rules_channel))
-        await self.add_roles(member, discord.utils.get(member.server.roles, id=self.config.new_member_role))
+                              member.server.name, self.config.rules_channel))
+        except:
+            print("failed to send msg to new member: %s" % member.name)
+        try:
+            await self.add_roles(member, discord.utils.get(member.server.roles, id=self.config.new_member_role))
+        except:
+            print("failed to add role to new member: %s" % member.name)
         print('New guest %s' % member.name)
 
     async def on_message(self, message):
@@ -40,8 +43,10 @@ class JoinBot(discord.Client):
 
             if self.config.command_prefix + "join" in message.content.lower():
                 print('User Joining %s' % message.author.name)
-                await self.remove_roles(message.author,
-                                        discord.utils.get(message.server.roles, id=self.config.new_member_role))
+                try:
+                    await self.remove_roles(message.author,discord.utils.get(message.server.roles, id=self.config.new_member_role))
+                except:
+                    print("failed to remove role from new member: %s" % message.author.name)
 
             if self.config.command_prefix + 'restart' in message.content.lower() and message.author.id == self.config.owner_id:
                 self.logout()
