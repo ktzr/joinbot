@@ -63,8 +63,8 @@ class JoinBot(discord.Client):
 
     async def on_message_delete(self, message):
         try:
-            if message.channel.id != self.config.new_member_channel and message.author.id not in (295394680009654272,303984280609095690):
-                print("Deleted message from %s :'%s'"%(message.author.name,message.content))
+            if message.channel.id not in (self.config.new_member_channel, 296099129199689738):
+                print("Message deleted in %s author %s :'%s'"%(message.channel.name,message.author.name,message.content))
         except Exception:
             print("failed to log message deletion")
 
