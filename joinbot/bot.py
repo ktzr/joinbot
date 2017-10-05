@@ -25,12 +25,12 @@ class JoinBot(discord.Client):
                                   'can identify you and you can post in all the channels!' % (
                               member.server.name, self.config.rules_channel))
         except:
-            print(("failed to send msg to new member: %s" % member.name)).encode('utf-8')
+            print(("failed to send msg to new member: %s" % member.name).encode('utf-8'))
         try:
             await self.add_roles(member, discord.utils.get(member.server.roles, id=self.config.new_member_role))
         except:
-            print(("failed to add role to new member: %s" % member.name)).encode('utf-8')
-        print(('New guest %s' % member.name)).encode('utf-8')
+            print(("failed to add role to new member: %s" % member.name).encode('utf-8'))
+        print(('New guest %s' % member.name).encode('utf-8'))
 
     async def on_message(self, message):
 
@@ -40,11 +40,11 @@ class JoinBot(discord.Client):
             delete = True
 
             if self.config.command_prefix + "join" in message.content.lower():
-                print(('User Joining %s' % message.author.name)).encode('utf-8')
+                print(('User Joining %s' % message.author.name).encode('utf-8'))
                 try:
                     await self.remove_roles(message.author,discord.utils.get(message.server.roles, id=self.config.new_member_role))
                 except:
-                    print(("failed to remove role from new member: %s" % message.author.name)).encode('utf-8')
+                    print(("failed to remove role from new member: %s" % message.author.name).encode('utf-8'))
 
             if self.config.command_prefix + 'restart' in message.content.lower() and message.author.id == self.config.owner_id:
                 self.logout()
@@ -55,7 +55,7 @@ class JoinBot(discord.Client):
             if delete:
                 try:
                     print(('deleting message from user: %s '
-                          '"%s"' %(message.author.name,message.content))).encode('utf-8')
+                          '"%s"' %(message.author.name,message.content)).encode('utf-8'))
                     await self.delete_message(message)
                 except:
                     print("failed to delete message")
